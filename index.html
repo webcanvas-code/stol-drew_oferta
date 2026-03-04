@@ -1,1428 +1,1293 @@
 <!DOCTYPE html>
 <html lang="pl">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redesign — Stol-Drew | Propozycja UX/UI</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap"
-    rel="stylesheet">
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --forest: #2C3A2E;
-      --pine: #3D5140;
-      --sage: #7A9A6D;
-      --straw: #E8D5A0;
-      --cream: #F5F0E8;
-      --bark: #8B6347;
-      --ember: #C45C2A;
-      --smoke: #B0A898;
-      --ink: #1A1F1B;
-      --white: #FAFAF7;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--white);
-      color: var(--ink);
-      overflow-x: hidden;
-    }
-
-    /* ── COVER ── */
-    .cover {
-      min-height: 100vh;
-      background: var(--forest);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      padding: 60px 24px;
-    }
-
-    .cover::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(122, 154, 109, 0.25) 0%, transparent 70%);
-    }
-
-    .cover-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--sage);
-      margin-bottom: 28px;
-      border: 1px solid rgba(122, 154, 109, 0.4);
-      padding: 8px 20px;
-      border-radius: 2px;
-    }
-
-    .cover h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(42px, 8vw, 96px);
-      font-weight: 900;
-      color: var(--white);
-      line-height: 1.0;
-      letter-spacing: -2px;
-    }
-
-    .cover h1 span {
-      color: var(--straw);
-      font-style: italic;
-    }
-
-    .cover-sub {
-      font-size: 15px;
-      color: var(--smoke);
-      margin-top: 24px;
-      max-width: 480px;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .cover-meta {
-      position: absolute;
-      bottom: 40px;
-      display: flex;
-      gap: 48px;
-    }
-
-    .cover-meta div {
-      text-align: center;
-    }
-
-    .cover-meta .val {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: var(--straw);
-      display: block;
-    }
-
-    .cover-meta .lbl {
-      font-size: 11px;
-      color: var(--smoke);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 40px;
-      right: 40px;
-      writing-mode: vertical-rl;
-      font-size: 10px;
-      letter-spacing: 3px;
-      color: rgba(176, 168, 152, 0.5);
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .scroll-hint::after {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 60px;
-      background: rgba(122, 154, 109, 0.4);
-    }
-
-    /* ── SECTION ── */
-    .section {
-      padding: 100px 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-tag {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--bark);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .section-tag::after {
-      content: '';
-      flex: 1;
-      max-width: 48px;
-      height: 1px;
-      background: var(--bark);
-      opacity: 0.4;
-    }
-
-    .section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 5vw, 56px);
-      font-weight: 700;
-      line-height: 1.15;
-      color: var(--forest);
-      margin-bottom: 48px;
-      max-width: 680px;
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      height: 2px;
-      background: linear-gradient(90deg, var(--sage) 0%, var(--straw) 50%, transparent 100%);
-      max-width: 1200px;
-      margin: 0 auto;
-      opacity: 0.35;
-    }
-
-    /* ── PROBLEM ── */
-    .problems {
-      background: var(--cream);
-      padding: 100px 40px;
-    }
-
-    .problems-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .problem-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2px;
-      margin-top: 48px;
-      border: 1px solid rgba(44, 58, 46, 0.1);
-    }
-
-    .problem-card {
-      background: var(--white);
-      padding: 36px 32px;
-      position: relative;
-      transition: background 0.2s;
-    }
-
-    .problem-card:hover {
-      background: var(--cream);
-    }
-
-    .problem-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 64px;
-      font-weight: 900;
-      color: rgba(44, 58, 46, 0.06);
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-
-    .problem-icon {
-      font-size: 28px;
-      margin-bottom: 16px;
-    }
-
-    .problem-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      color: var(--forest);
-      margin-bottom: 12px;
-    }
-
-    .problem-card p {
-      font-size: 14px;
-      line-height: 1.7;
-      color: #555;
-    }
-
-    .severity {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 16px;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      padding: 4px 10px;
-      border-radius: 2px;
-    }
-
-    .severity.high {
-      background: rgba(196, 92, 42, 0.12);
-      color: var(--ember);
-    }
-
-    .severity.med {
-      background: rgba(122, 154, 109, 0.15);
-      color: var(--pine);
-    }
-
-    /* ── CONCEPT ── */
-    .concept-strip {
-      background: var(--forest);
-      padding: 80px 40px;
-      text-align: center;
-    }
-
-    .concept-strip h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 4vw, 48px);
-      color: var(--white);
-      max-width: 720px;
-      margin: 0 auto 24px;
-      line-height: 1.3;
-    }
-
-    .concept-strip p {
-      font-size: 16px;
-      color: var(--smoke);
-      max-width: 560px;
-      margin: 0 auto;
-      line-height: 1.8;
-    }
-
-    .concept-strip .keywords {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 36px;
-    }
-
-    .kw {
-      border: 1px solid rgba(232, 213, 160, 0.35);
-      color: var(--straw);
-      padding: 8px 20px;
-      font-size: 13px;
-      letter-spacing: 1px;
-      border-radius: 2px;
-    }
-
-    /* ── PALETTE ── */
-    .palette-row {
-      display: flex;
-      gap: 0;
-      margin-top: 40px;
-      border-radius: 4px;
-      overflow: hidden;
-      height: 100px;
-    }
-
-    .swatch {
-      flex: 1;
-      display: flex;
-      align-items: flex-end;
-      padding: 12px 16px;
-      transition: flex 0.3s;
-    }
-
-    .swatch:hover {
-      flex: 2;
-    }
-
-    .swatch span {
-      font-size: 11px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.7);
-      letter-spacing: 1px;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    /* ── TYPOGRAPHY ── */
-    .type-showcase {
-      background: var(--cream);
-      padding: 80px 40px;
-    }
-
-    .type-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .type-pair {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      margin-top: 48px;
-    }
-
-    .type-card {
-      padding: 40px;
-      background: var(--white);
-    }
-
-    .type-label {
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--smoke);
-      margin-bottom: 20px;
-    }
-
-    .display-sample {
-      font-family: 'Playfair Display', serif;
-      font-size: 52px;
-      font-weight: 700;
-      color: var(--forest);
-      line-height: 1.1;
-    }
-
-    .body-sample {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      color: #4A5240;
-      line-height: 1.8;
-      font-weight: 300;
-    }
-
-    /* ── WIREFRAMES ── */
-    .wireframes {
-      padding: 100px 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .wf-tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 1px solid rgba(44, 58, 46, 0.15);
-      margin-bottom: 48px;
-    }
-
-    .wf-tab {
-      padding: 12px 28px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--smoke);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      transition: all 0.2s;
-      background: none;
-      border-top: none;
-      border-left: none;
-      border-right: none;
-    }
-
-    .wf-tab.active {
-      color: var(--forest);
-      border-bottom-color: var(--sage);
-    }
-
-    .wf-panel {
-      display: none;
-    }
-
-    .wf-panel.active {
-      display: block;
-    }
-
-    .mockup {
-      background: var(--forest);
-      border-radius: 8px;
-      padding: 0;
-      overflow: hidden;
-      box-shadow: 0 40px 80px rgba(44, 58, 46, 0.25);
-    }
-
-    .mockup-bar {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .dot.r {
-      background: #FF5F57;
-    }
-
-    .dot.y {
-      background: #FEBC2E;
-    }
-
-    .dot.g {
-      background: #28C840;
-    }
-
-    .mockup-url {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 6px 12px;
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.4);
-      margin-left: 12px;
-      font-family: monospace;
-    }
-
-    .mockup-body {
-      padding: 32px;
-    }
-
-    /* Hero wireframe */
-    .wf-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 80px;
-    }
-
-    .wf-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .wf-logo-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--sage);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .wf-logo-text {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      color: var(--white);
-      font-weight: 700;
-    }
-
-    .wf-nav-links {
-      display: flex;
-      gap: 32px;
-      align-items: center;
-    }
-
-    .wf-nav-link {
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .wf-nav-cta {
-      background: var(--ember);
-      color: white;
-      padding: 10px 22px;
-      border-radius: 3px;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .wf-hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-
-    .wf-hero-text {}
-
-    .wf-tag-line {
-      display: inline-block;
-      background: rgba(122, 154, 109, 0.2);
-      color: var(--sage);
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 2px;
-      margin-bottom: 20px;
-    }
-
-    .wf-h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 48px;
-      color: var(--white);
-      line-height: 1.1;
-      margin-bottom: 20px;
-      font-weight: 900;
-    }
-
-    .wf-h1 em {
-      color: var(--straw);
-      font-style: italic;
-    }
-
-    .wf-desc {
-      font-size: 15px;
-      color: rgba(255, 255, 255, 0.5);
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
-
-    .wf-btns {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .btn-primary {
-      background: var(--ember);
-      color: white;
-      padding: 14px 28px;
-      border-radius: 3px;
-      font-size: 14px;
-      font-weight: 500;
-      display: inline-block;
-    }
-
-    .btn-ghost {
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .wf-hero-img {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 6px;
-      aspect-ratio: 4/3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 56px;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .wf-hero-img::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 40%;
-      background: linear-gradient(to top, rgba(44, 58, 46, 0.8), transparent);
-    }
-
-    .wf-stats {
-      display: flex;
-      gap: 24px;
-      margin-top: 40px;
-      padding-top: 32px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .wf-stat .n {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: var(--straw);
-    }
-
-    .wf-stat .l {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.4);
-      margin-top: 2px;
-    }
-
-    /* ── FEATURES ── */
-    .features {
-      background: var(--cream);
-      padding: 100px 40px;
-    }
-
-    .feat-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .feat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 32px;
-      margin-top: 48px;
-    }
-
-    .feat-card {
-      padding: 40px 36px;
-      background: var(--white);
-      position: relative;
-      border-left: 3px solid transparent;
-      transition: border-color 0.2s;
-    }
-
-    .feat-card:hover {
-      border-left-color: var(--sage);
-    }
-
-    .feat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 13px;
-      color: var(--smoke);
-      margin-bottom: 20px;
-    }
-
-    .feat-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      color: var(--forest);
-      margin-bottom: 14px;
-    }
-
-    .feat-card p {
-      font-size: 14px;
-      line-height: 1.75;
-      color: #666;
-    }
-
-    .feat-badge {
-      display: inline-block;
-      margin-top: 20px;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--sage);
-    }
-
-    /* ── CTA ── */
-    .cta-section {
-      background: var(--bark);
-      padding: 100px 40px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-section::before {
-      content: '🌲';
-      position: absolute;
-      font-size: 300px;
-      opacity: 0.04;
-      top: -60px;
-      left: -60px;
-      pointer-events: none;
-    }
-
-    .cta-section::after {
-      content: '🪵';
-      position: absolute;
-      font-size: 200px;
-      opacity: 0.05;
-      bottom: -40px;
-      right: -40px;
-      pointer-events: none;
-    }
-
-    .cta-section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 4vw, 52px);
-      color: var(--white);
-      max-width: 600px;
-      margin: 0 auto 24px;
-      line-height: 1.2;
-    }
-
-    .cta-section p {
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.65);
-      margin-bottom: 40px;
-    }
-
-    .cta-btn {
-      display: inline-block;
-      background: var(--straw);
-      color: var(--forest);
-      padding: 16px 40px;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      border-radius: 3px;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-
-    .cta-btn:hover {
-      background: var(--cream);
-    }
-
-    /* ── ROADMAP ── */
-    .roadmap {
-      padding: 100px 40px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .timeline {
-      position: relative;
-      padding-left: 48px;
-      margin-top: 48px;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 14px;
-      top: 8px;
-      bottom: 8px;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--sage), var(--straw), transparent);
-    }
-
-    .tl-item {
-      position: relative;
-      margin-bottom: 56px;
-    }
-
-    .tl-dot {
-      position: absolute;
-      left: -40px;
-      top: 4px;
-      width: 14px;
-      height: 14px;
-      background: var(--sage);
-      border-radius: 50%;
-      border: 2px solid var(--cream);
-      box-shadow: 0 0 0 3px rgba(122, 154, 109, 0.3);
-    }
-
-    .tl-phase {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--bark);
-      margin-bottom: 8px;
-    }
-
-    .tl-item h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      color: var(--forest);
-      margin-bottom: 12px;
-    }
-
-    .tl-item p {
-      font-size: 14px;
-      line-height: 1.75;
-      color: #666;
-      max-width: 600px;
-    }
-
-    .tl-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .tl-tag {
-      background: rgba(44, 58, 46, 0.07);
-      color: var(--pine);
-      padding: 4px 12px;
-      font-size: 12px;
-      border-radius: 2px;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--ink);
-      padding: 48px 40px;
-      text-align: center;
-    }
-
-    footer p {
-      color: rgba(255, 255, 255, 0.3);
-      font-size: 13px;
-      line-height: 2;
-    }
-
-    footer strong {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .section {
-        padding: 64px 20px;
-      }
-
-      .problems {
-        padding: 64px 20px;
-      }
-
-      .type-pair {
-        grid-template-columns: 1fr;
-      }
-
-      .wf-hero {
-        grid-template-columns: 1fr;
-      }
-
-      .cover-meta {
-        gap: 24px;
-      }
-
-      .wf-nav-links {
-        display: none;
-      }
-
-      .roadmap {
-        padding: 64px 20px;
-      }
-
-      .features {
-        padding: 64px 20px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redesign — Stol-Drew | Propozycja UX/UI</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --forest: #2C3A2E;
+    --pine: #3D5140;
+    --sage: #7A9A6D;
+    --straw: #E8D5A0;
+    --cream: #F5F0E8;
+    --bark: #8B6347;
+    --ember: #C45C2A;
+    --smoke: #B0A898;
+    --ink: #1A1F1B;
+    --white: #FAFAF7;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: var(--forest);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 24px;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(122,154,109,0.25) 0%, transparent 70%);
+  }
+
+  .cover-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 28px;
+    border: 1px solid rgba(122,154,109,0.4);
+    padding: 8px 20px;
+    border-radius: 2px;
+  }
+
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 8vw, 96px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.0;
+    letter-spacing: -2px;
+  }
+
+  .cover h1 span {
+    color: var(--straw);
+    font-style: italic;
+  }
+
+  .cover-sub {
+    font-size: 15px;
+    color: var(--smoke);
+    margin-top: 24px;
+    max-width: 480px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .cover-meta {
+    position: absolute;
+    bottom: 40px;
+    display: flex;
+    gap: 48px;
+  }
+
+  .cover-meta div {
+    text-align: center;
+  }
+
+  .cover-meta .val {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--straw);
+    display: block;
+  }
+
+  .cover-meta .lbl {
+    font-size: 11px;
+    color: var(--smoke);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    writing-mode: vertical-rl;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(176,168,152,0.5);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 60px;
+    background: rgba(122,154,109,0.4);
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--bark);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    max-width: 48px;
+    height: 1px;
+    background: var(--bark);
+    opacity: 0.4;
+  }
+
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--forest);
+    margin-bottom: 48px;
+    max-width: 680px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 2px;
+    background: linear-gradient(90deg, var(--sage) 0%, var(--straw) 50%, transparent 100%);
+    max-width: 1200px;
+    margin: 0 auto;
+    opacity: 0.35;
+  }
+
+  /* ── PROBLEM ── */
+  .problems {
+    background: var(--cream);
+    padding: 100px 40px;
+  }
+
+  .problems-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+    margin-top: 48px;
+    border: 1px solid rgba(44,58,46,0.1);
+  }
+
+  .problem-card {
+    background: var(--white);
+    padding: 36px 32px;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .problem-card:hover {
+    background: var(--cream);
+  }
+
+  .problem-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: rgba(44,58,46,0.06);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .problem-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .problem-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--forest);
+    margin-bottom: 12px;
+  }
+
+  .problem-card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #555;
+  }
+
+  .severity {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+
+  .severity.high { background: rgba(196,92,42,0.12); color: var(--ember); }
+  .severity.med { background: rgba(122,154,109,0.15); color: var(--pine); }
+
+  /* ── CONCEPT ── */
+  .concept-strip {
+    background: var(--forest);
+    padding: 80px 40px;
+    text-align: center;
+  }
+
+  .concept-strip h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    color: var(--white);
+    max-width: 720px;
+    margin: 0 auto 24px;
+    line-height: 1.3;
+  }
+
+  .concept-strip p {
+    font-size: 16px;
+    color: var(--smoke);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .concept-strip .keywords {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 36px;
+  }
+
+  .kw {
+    border: 1px solid rgba(232,213,160,0.35);
+    color: var(--straw);
+    padding: 8px 20px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    border-radius: 2px;
+  }
+
+  /* ── PALETTE ── */
+  .palette-row {
+    display: flex;
+    gap: 0;
+    margin-top: 40px;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 100px;
+  }
+
+  .swatch {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: 12px 16px;
+    transition: flex 0.3s;
+  }
+
+  .swatch:hover { flex: 2; }
+
+  .swatch span {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 1px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .type-showcase {
+    background: var(--cream);
+    padding: 80px 40px;
+  }
+
+  .type-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .type-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 48px;
+  }
+
+  .type-card {
+    padding: 40px;
+    background: var(--white);
+  }
+
+  .type-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 20px;
+  }
+
+  .display-sample {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--forest);
+    line-height: 1.1;
+  }
+
+  .body-sample {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    color: #4A5240;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ── WIREFRAMES ── */
+  .wireframes {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── WIREFRAME TABS (pure CSS) ── */
+  .wf-tabs-wrapper {
+    position: relative;
+  }
+
+  .wf-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid rgba(44,58,46,0.15);
+    margin-bottom: 48px;
+  }
+
+  .wf-tab {
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--smoke);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .wf-tab:hover { color: var(--forest); }
+
+  .wf-panel {
+    display: none;
+  }
+
+  /* Show panel when corresponding radio is checked */
+  #tab-r-hero:checked ~ .wf-tabs label[for="tab-r-hero"],
+  #tab-r-offer:checked ~ .wf-tabs label[for="tab-r-offer"],
+  #tab-r-contact:checked ~ .wf-tabs label[for="tab-r-contact"] {
+    color: var(--forest);
+    border-bottom: 2px solid var(--sage);
+  }
+
+  #tab-r-hero:checked ~ #wfp-hero,
+  #tab-r-offer:checked ~ #wfp-offer,
+  #tab-r-contact:checked ~ #wfp-contact {
+    display: block;
+  }
+
+  .mockup {
+    background: var(--forest);
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(44,58,46,0.25);
+  }
+
+  .mockup-bar {
+    background: rgba(0,0,0,0.3);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.r { background: #FF5F57; }
+  .dot.y { background: #FEBC2E; }
+  .dot.g { background: #28C840; }
+
+  .mockup-url {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-left: 12px;
+    font-family: monospace;
+  }
+
+  .mockup-body {
+    padding: 32px;
+  }
+
+  /* Hero wireframe */
+  .wf-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 80px;
+  }
+
+  .wf-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .wf-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--sage);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .wf-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  .wf-nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .wf-nav-link {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .wf-nav-cta {
+    background: var(--ember);
+    color: white;
+    padding: 10px 22px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .wf-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .wf-hero-text { }
+
+  .wf-tag-line {
+    display: inline-block;
+    background: rgba(122,154,109,0.2);
+    color: var(--sage);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  .wf-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+    font-weight: 900;
+  }
+
+  .wf-h1 em {
+    color: var(--straw);
+    font-style: italic;
+  }
+
+  .wf-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .wf-btns {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--ember);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+  }
+
+  .btn-ghost {
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .wf-hero-img {
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    border: 1px solid rgba(255,255,255,0.07);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wf-hero-img::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgba(44,58,46,0.8), transparent);
+  }
+
+  .wf-stats {
+    display: flex;
+    gap: 24px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .wf-stat .n {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--straw);
+  }
+
+  .wf-stat .l {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+  }
+
+  /* ── FEATURES ── */
+  .features {
+    background: var(--cream);
+    padding: 100px 40px;
+  }
+
+  .feat-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .feat-card {
+    padding: 40px 36px;
+    background: var(--white);
+    position: relative;
+    border-left: 3px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .feat-card:hover { border-left-color: var(--sage); }
+
+  .feat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--smoke);
+    margin-bottom: 20px;
+  }
+
+  .feat-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--forest);
+    margin-bottom: 14px;
+  }
+
+  .feat-card p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #666;
+  }
+
+  .feat-badge {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sage);
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--bark);
+    padding: 100px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '🌲';
+    position: absolute;
+    font-size: 300px;
+    opacity: 0.04;
+    top: -60px;
+    left: -60px;
+    pointer-events: none;
+  }
+
+  .cta-section::after {
+    content: '🪵';
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.05;
+    bottom: -40px;
+    right: -40px;
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 52px);
+    color: var(--white);
+    max-width: 600px;
+    margin: 0 auto 24px;
+    line-height: 1.2;
+  }
+
+  .cta-section p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 40px;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--straw);
+    color: var(--forest);
+    padding: 16px 40px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .cta-btn:hover { background: var(--cream); }
+
+  /* ── ROADMAP ── */
+  .roadmap {
+    padding: 100px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 48px;
+    margin-top: 48px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--sage), var(--straw), transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 56px;
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: -40px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    background: var(--sage);
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 3px rgba(122,154,109,0.3);
+  }
+
+  .tl-phase {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--bark);
+    margin-bottom: 8px;
+  }
+
+  .tl-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--forest);
+    margin-bottom: 12px;
+  }
+
+  .tl-item p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #666;
+    max-width: 600px;
+  }
+
+  .tl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .tl-tag {
+    background: rgba(44,58,46,0.07);
+    color: var(--pine);
+    padding: 4px 12px;
+    font-size: 12px;
+    border-radius: 2px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    padding: 48px 40px;
+    text-align: center;
+  }
+
+  footer p {
+    color: rgba(255,255,255,0.3);
+    font-size: 13px;
+    line-height: 2;
+  }
+
+  footer strong {
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .section { padding: 64px 20px; }
+    .problems { padding: 64px 20px; }
+    .type-pair { grid-template-columns: 1fr; }
+    .wf-hero { grid-template-columns: 1fr; }
+    .cover-meta { gap: 24px; }
+    .wf-nav-links { display: none; }
+    .roadmap { padding: 64px 20px; }
+    .features { padding: 64px 20px; }
+  }
+</style>
 </head>
-
 <body>
 
-  <!-- COVER -->
-  <div class="cover">
-    <div class="cover-label">Propozycja redesignu · 2025</div>
-    <h1>Stol-Drew<br><span>od drewna<br>do designu</span></h1>
-    <p class="cover-sub">Kompleksowa analiza UX/UI i propozycja nowej tożsamości cyfrowej dla producenta altan i domków
-      ogrodowych z Konradowa.</p>
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">Propozycja redesignu · 2025</div>
+  <h1>Stol-Drew<br><span>od drewna<br>do designu</span></h1>
+  <p class="cover-sub">Kompleksowa analiza UX/UI i propozycja nowej tożsamości cyfrowej dla producenta altan i domków ogrodowych z Konradowa.</p>
 
-    <div class="cover-meta">
-      <div>
-        <span class="val">6</span>
-        <span class="lbl">kluczowych problemów</span>
-      </div>
-      <div>
-        <span class="val">3</span>
-        <span class="lbl">fazy wdrożenia</span>
-      </div>
-      <div>
-        <span class="val">∞</span>
-        <span class="lbl">możliwości wzrostu</span>
-      </div>
+  <div class="cover-meta">
+    <div>
+      <span class="val">6</span>
+      <span class="lbl">kluczowych problemów</span>
     </div>
-
-    <div class="scroll-hint">Scroll</div>
-  </div>
-
-  <!-- PROBLEM AUDIT -->
-  <div class="problems">
-    <div class="problems-inner">
-      <div class="section-tag">01 · Audyt obecnej strony</div>
-      <h2>Co działa źle — i dlaczego to kosztuje klientów</h2>
-
-      <div class="problem-grid">
-
-
-        <div class="problem-card">
-          <div class="problem-num">01</div>
-          <div class="problem-icon">📐</div>
-          <h3>Archaiczny layout i typografia</h3>
-          <p>Układ strony pochodzi z epoki WordPress sprzed dekady. Centrowanie wszystkiego, brak siatki, font systemowy
-            — żadna hierarchia wizualna nie prowadzi oka użytkownika ku akcji zakupowej.</p>
-          <span class="severity high">● Krytyczne</span>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-num">02</div>
-          <div class="problem-icon">📱</div>
-          <h3>Słaba responsywność mobilna</h3>
-          <p>Ponad 60% użytkowników przeglądających tego rodzaju usługi robi to na telefonie. Obecna strona nie jest
-            zoptymalizowana pod mobile — menu, zdjęcia i sekcje kontaktowe są trudne w obsłudze na małym ekranie.</p>
-          <span class="severity high">● Krytyczne</span>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-num">03</div>
-          <div class="problem-icon">🔍</div>
-          <h3>Trudne porównywanie modeli w obrębie oferty</h3>
-          <p>Strony oferty zawierają szczegółowe specyfikacje techniczne i wymiary każdego modelu — to duży atut.
-            Problem leży w formie prezentacji: wszystkie modele są wylistowane jeden pod drugim jako długa pionowa
-            strona. Klient chcący porównać np. Altanę ALFA 3×3 z Altaną nr 2 musi przewijać w górę i w dół. Brak tabeli
-            porównawczej, brak filtrowania po rozmiarze czy cenie.</p>
-          <span class="severity med">● Ważne</span>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-num">04</div>
-          <div class="problem-icon">💬</div>
-          <h3>Brak social proof i realizacji</h3>
-          <p>Firma działa 10 lat i wykonała zapewne setki projektów. Żadnego nie ma na stronie. Brak opinii klientów,
-            brak case studies, brak map zasięgu. Zaufanie buduje się przez przykłady — ich tutaj nie ma.</p>
-          <span class="severity med">● Ważne</span>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-num">05</div>
-          <div class="problem-icon">🎯</div>
-          <h3>Brak wyraźnego CTA i ścieżki zakupowej</h3>
-          <p>Użytkownik trafia na stronę, ale nie jest prowadzony ku żadnej konkretnej akcji. Formularz kontaktowy jest
-            schowany. Numer telefonu w stopce. Brak przycisku „Poproś o wycenę" czy „ Zobacz katalog".</p>
-          <span class="severity med">● Ważne</span>
-        </div>
-      </div>
+    <div>
+      <span class="val">3</span>
+      <span class="lbl">fazy wdrożenia</span>
+    </div>
+    <div>
+      <span class="val">∞</span>
+      <span class="lbl">możliwości wzrostu</span>
     </div>
   </div>
 
-  <div class="divider"></div>
+  <div class="scroll-hint">Scroll</div>
+</div>
 
-  <!-- CONCEPT -->
-  <div class="concept-strip">
-    <div class="section-tag" style="justify-content:center; color: var(--sage);">02 · Koncepcja kierunkowa</div>
-    <h2>„Rzemiosło, które widać. Jakość, którą czuć."</h2>
-    <p>Nowa strona Stol-Drew ma komunikować jedno: tu tworzą prawdziwi rzemieślnicy, którzy rozumieją naturę. Estetyka
-      inspirowana lasem, drewnem i przestrzenią — ciepła, organiczna, ale nowoczesna i godna zaufania.</p>
+<!-- PROBLEM AUDIT -->
+<div class="problems">
+  <div class="problems-inner">
+    <div class="section-tag">01 · Audyt obecnej strony</div>
+    <h2>Co działa źle — i dlaczego to kosztuje klientów</h2>
 
-    <div class="keywords">
-      <span class="kw">Naturalne materiały</span>
-      <span class="kw">Rzemiosło z doświadczeniem</span>
-      <span class="kw">Przestrzeń i spokój</span>
-      <span class="kw">Polska produkcja</span>
-      <span class="kw">Personalizacja</span>
-      <span class="kw">Długoletnia gwarancja</span>
+    <div class="problem-grid">
+
+
+      <div class="problem-card">
+        <div class="problem-num">02</div>
+        <div class="problem-icon">📐</div>
+        <h3>Archaiczny layout i typografia</h3>
+        <p>Układ strony pochodzi z epoki WordPress sprzed dekady. Centrowanie wszystkiego, brak siatki, font systemowy — żadna hierarchia wizualna nie prowadzi oka użytkownika ku akcji zakupowej.</p>
+        <span class="severity high">● Krytyczne</span>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-num">03</div>
+        <div class="problem-icon">📱</div>
+        <h3>Słaba responsywność mobilna</h3>
+        <p>Ponad 60% użytkowników przeglądających tego rodzaju usługi robi to na telefonie. Obecna strona nie jest zoptymalizowana pod mobile — menu, zdjęcia i sekcje kontaktowe są trudne w obsłudze na małym ekranie.</p>
+        <span class="severity high">● Krytyczne</span>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-num">04</div>
+        <div class="problem-icon">🔍</div>
+        <h3>Trudne porównywanie modeli w obrębie oferty</h3>
+        <p>Strony oferty zawierają szczegółowe specyfikacje techniczne i wymiary każdego modelu — to duży atut. Problem leży w formie prezentacji: wszystkie modele są wylistowane jeden pod drugim jako długa pionowa strona. Klient chcący porównać np. Altanę ALFA 3×3 z Altaną nr 2 musi przewijać w górę i w dół. Brak tabeli porównawczej, brak filtrowania po rozmiarze czy cenie.</p>
+        <span class="severity med">● Ważne</span>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-num">05</div>
+        <div class="problem-icon">💬</div>
+        <h3>Brak social proof i realizacji</h3>
+        <p>Firma działa 10 lat i wykonała zapewne setki projektów. Żadnego nie ma na stronie. Brak opinii klientów, brak case studies, brak map zasięgu. Zaufanie buduje się przez przykłady — ich tutaj nie ma.</p>
+        <span class="severity med">● Ważne</span>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-num">06</div>
+        <div class="problem-icon">🎯</div>
+        <h3>Brak wyraźnego CTA i ścieżki zakupowej</h3>
+        <p>Użytkownik trafia na stronę, ale nie jest prowadzony ku żadnej konkretnej akcji. Formularz kontaktowy jest schowany. Numer telefonu w stopce. Brak przycisku „Poproś o wycenę" czy „Zobacz katalog".</p>
+        <span class="severity med">● Ważne</span>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- PALETTE -->
-  <div class="section">
-    <div class="section-tag">03 · Identyfikacja wizualna</div>
-    <h2>Paleta barw — inspirowana naturą, zaprojektowana z klasą</h2>
+<div class="divider"></div>
 
-    <div class="palette-row">
-      <div class="swatch" style="background: #2C3A2E;"><span>Forest #2C3A2E</span></div>
-      <div class="swatch" style="background: #3D5140;"><span>Pine #3D5140</span></div>
-      <div class="swatch" style="background: #7A9A6D;"><span>Sage #7A9A6D</span></div>
-      <div class="swatch" style="background: #E8D5A0;"><span>Straw #E8D5A0</span></div>
-      <div class="swatch" style="background: #8B6347;"><span>Bark #8B6347</span></div>
-      <div class="swatch" style="background: #C45C2A;"><span>Ember #C45C2A</span></div>
-      <div class="swatch" style="background: #F5F0E8;"><span style="color: rgba(0,0,0,0.4)">Cream #F5F0E8</span></div>
-    </div>
+<!-- CONCEPT -->
+<div class="concept-strip">
+  <div class="section-tag" style="justify-content:center; color: var(--sage);">02 · Koncepcja kierunkowa</div>
+  <h2>„Rzemiosło, które widać. Jakość, którą czuć."</h2>
+  <p>Nowa strona Stol-Drew ma komunikować jedno: tu tworzą prawdziwi rzemieślnicy, którzy rozumieją naturę. Estetyka inspirowana lasem, drewnem i przestrzenią — ciepła, organiczna, ale nowoczesna i godna zaufania.</p>
 
-    <p style="margin-top: 24px; font-size: 14px; color: #666; max-width: 680px; line-height: 1.75;">
-      Paleta bazuje na odcieniach lasu, kory, słomy i węgli. <strong>Forest</strong> i <strong>Pine</strong> to
-      dominujące tła, które nadają powagi. <strong>Sage</strong> to akcent natury. <strong>Ember</strong> — intensywny
-      pomarańcz — pełni rolę CTA i przyciąga wzrok tam, gdzie chcemy akcji.
-    </p>
+  <div class="keywords">
+    <span class="kw">Naturalne materiały</span>
+    <span class="kw">Rzemiosło z doświadczeniem</span>
+    <span class="kw">Przestrzeń i spokój</span>
+    <span class="kw">Polska produkcja</span>
+    <span class="kw">Personalizacja</span>
+    <span class="kw">Długoletnia gwarancja</span>
+  </div>
+</div>
+
+<!-- PALETTE -->
+<div class="section">
+  <div class="section-tag">03 · Identyfikacja wizualna</div>
+  <h2>Paleta barw — inspirowana naturą, zaprojektowana z klasą</h2>
+
+  <div class="palette-row">
+    <div class="swatch" style="background: #2C3A2E;"><span>Forest #2C3A2E</span></div>
+    <div class="swatch" style="background: #3D5140;"><span>Pine #3D5140</span></div>
+    <div class="swatch" style="background: #7A9A6D;"><span>Sage #7A9A6D</span></div>
+    <div class="swatch" style="background: #E8D5A0;"><span>Straw #E8D5A0</span></div>
+    <div class="swatch" style="background: #8B6347;"><span>Bark #8B6347</span></div>
+    <div class="swatch" style="background: #C45C2A;"><span>Ember #C45C2A</span></div>
+    <div class="swatch" style="background: #F5F0E8;"><span style="color: rgba(0,0,0,0.4)">Cream #F5F0E8</span></div>
   </div>
 
-  <!-- TYPOGRAPHY -->
-  <div class="type-showcase">
-    <div class="type-inner">
-      <div class="section-tag">04 · Typografia</div>
-      <h2
-        style="font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 52px); color: var(--forest); margin-bottom: 48px;">
-        Dwa fonty. Jeden charakter.</h2>
+  <p style="margin-top: 24px; font-size: 14px; color: #666; max-width: 680px; line-height: 1.75;">
+    Paleta bazuje na odcieniach lasu, kory, słomy i węgli. <strong>Forest</strong> i <strong>Pine</strong> to dominujące tła, które nadają powagi. <strong>Sage</strong> to akcent natury. <strong>Ember</strong> — intensywny pomarańcz — pełni rolę CTA i przyciąga wzrok tam, gdzie chcemy akcji.
+  </p>
+</div>
 
-      <div class="type-pair">
-        <div class="type-card">
-          <div class="type-label">Display · Playfair Display</div>
-          <div class="display-sample">Altany<br><em>z duszą</em></div>
-          <p style="margin-top: 16px; font-size: 13px; color: #888;">Używany do nagłówków, cytatów i akcentów. Serif z
-            klasą — łączy tradycję rzemiosła z elegancją.</p>
-        </div>
+<!-- TYPOGRAPHY -->
+<div class="type-showcase">
+  <div class="type-inner">
+    <div class="section-tag">04 · Typografia</div>
+    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 52px); color: var(--forest); margin-bottom: 48px;">Dwa fonty. Jeden charakter.</h2>
 
-        <div class="type-card">
-          <div class="type-label">Body · DM Sans</div>
-          <div class="body-sample">
-            Nasza firma od ponad dekady tworzy altany ogrodowe, domki i zadaszenia z litego drewna. Każdy projekt
-            realizujemy z dbałością o detal i poszanowaniem materiału.
-            <br><br>
-            <strong>Kontakt: 723-035-154</strong><br>
-            Siedziba: Konradów k. Częstochowy
-          </div>
+    <div class="type-pair">
+      <div class="type-card">
+        <div class="type-label">Display · Playfair Display</div>
+        <div class="display-sample">Altany<br><em>z duszą</em></div>
+        <p style="margin-top: 16px; font-size: 13px; color: #888;">Używany do nagłówków, cytatów i akcentów. Serif z klasą — łączy tradycję rzemiosła z elegancją.</p>
+      </div>
+
+      <div class="type-card">
+        <div class="type-label">Body · DM Sans</div>
+        <div class="body-sample">
+          Nasza firma od ponad dekady tworzy altany ogrodowe, domki i zadaszenia z litego drewna. Każdy projekt realizujemy z dbałością o detal i poszanowaniem materiału.
+          <br><br>
+          <strong>Kontakt: 723-035-154</strong><br>
+          Siedziba: Konradów k. Częstochowy
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- WIREFRAME MOCKUP -->
-  <div class="wireframes">
-    <div class="section-tag">05 · Projekt interfejsu</div>
-    <h2>Jak będzie wyglądał nowy Stol-Drew</h2>
+<!-- WIREFRAME MOCKUP -->
+<div class="wireframes">
+  <div class="section-tag">05 · Projekt interfejsu</div>
+  <h2>Jak będzie wyglądał nowy Stol-Drew</h2>
+
+  <div class="wf-tabs-wrapper">
+    <input type="radio" name="wftab" id="tab-r-hero" checked hidden>
+    <input type="radio" name="wftab" id="tab-r-offer" hidden>
+    <input type="radio" name="wftab" id="tab-r-contact" hidden>
 
     <div class="wf-tabs">
-      <button class="wf-tab active" onclick="switchTab('hero')">🏠 Hero / Strona główna</button>
-      <button class="wf-tab" onclick="switchTab('offer')">📦 Strona oferty</button>
-      <button class="wf-tab" onclick="switchTab('contact')">📞 Kontakt & wycena</button>
+      <label class="wf-tab" for="tab-r-hero">🏠 Hero / Strona główna</label>
+      <label class="wf-tab" for="tab-r-offer">📦 Strona oferty</label>
+      <label class="wf-tab" for="tab-r-contact">📞 Kontakt & wycena</label>
     </div>
 
-    <!-- HERO TAB -->
-    <div class="wf-panel active" id="tab-hero">
-      <div class="mockup">
-        <div class="mockup-bar">
-          <div class="dot r"></div>
-          <div class="dot y"></div>
-          <div class="dot g"></div>
-          <div class="mockup-url">altanystoldrew.pl</div>
+    <!-- HERO PANEL -->
+    <div class="wf-panel" id="wfp-hero">
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="dot r"></div>
+        <div class="dot y"></div>
+        <div class="dot g"></div>
+        <div class="mockup-url">altanystoldrew.pl</div>
+      </div>
+      <div class="mockup-body">
+        <!-- Nav -->
+        <div class="wf-nav">
+          <div class="wf-logo">
+            <div class="wf-logo-icon">🌲</div>
+            <span class="wf-logo-text">Stol-Drew</span>
+          </div>
+          <div class="wf-nav-links">
+            <span class="wf-nav-link">O firmie</span>
+            <span class="wf-nav-link">Altany</span>
+            <span class="wf-nav-link">Domki</span>
+            <span class="wf-nav-link">Realizacje</span>
+            <span class="wf-nav-link">Kolorystyka</span>
+            <span class="wf-nav-cta">Zapytaj o wycenę →</span>
+          </div>
         </div>
-        <div class="mockup-body">
-          <!-- Nav -->
-          <div class="wf-nav">
-            <div class="wf-logo">
-              <div class="wf-logo-icon">🌲</div>
-              <span class="wf-logo-text">Stol-Drew</span>
-            </div>
-            <div class="wf-nav-links">
-              <span class="wf-nav-link">O firmie</span>
-              <span class="wf-nav-link">Altany</span>
-              <span class="wf-nav-link">Domki</span>
-              <span class="wf-nav-link">Realizacje</span>
-              <span class="wf-nav-link">Kolorystyka</span>
-              <span class="wf-nav-cta">Zapytaj o wycenę →</span>
-            </div>
-          </div>
 
-          <!-- Hero -->
-          <div class="wf-hero">
-            <div class="wf-hero-text">
-              <span class="wf-tag-line">🌿 Producent · Polska · od 2013</span>
-              <div class="wf-h1">Altany<br>i domki<br><em>z prawdziwego</em><br><em>drewna</em></div>
-              <p class="wf-desc">Projektujemy i budujemy drewniane przestrzenie ogrodowe na miarę Twoich potrzeb. Ponad
-                500 zrealizowanych projektów na terenie całej Polski.</p>
-              <div class="wf-btns">
-                <span class="btn-primary">Zobacz ofertę</span>
-                <span class="btn-ghost">▶ Obejrzyj realizacje</span>
+        <!-- Hero -->
+        <div class="wf-hero">
+          <div class="wf-hero-text">
+            <span class="wf-tag-line">🌿 Producent · Polska · od 2013</span>
+            <div class="wf-h1">Altany<br>i domki<br><em>z prawdziwego</em><br><em>drewna</em></div>
+            <p class="wf-desc">Projektujemy i budujemy drewniane przestrzenie ogrodowe na miarę Twoich potrzeb. Ponad 500 zrealizowanych projektów na terenie całej Polski.</p>
+            <div class="wf-btns">
+              <span class="btn-primary">Zobacz ofertę</span>
+              <span class="btn-ghost">▶ Obejrzyj realizacje</span>
+            </div>
+            <div class="wf-stats">
+              <div class="wf-stat">
+                <div class="n">10+</div>
+                <div class="l">lat doświadczenia</div>
               </div>
-              <div class="wf-stats">
-                <div class="wf-stat">
-                  <div class="n">10+</div>
-                  <div class="l">lat doświadczenia</div>
-                </div>
-                <div class="wf-stat">
-                  <div class="n">500+</div>
-                  <div class="l">realizacji</div>
-                </div>
-                <div class="wf-stat">
-                  <div class="n">PL</div>
-                  <div class="l">cała Polska</div>
-                </div>
+              <div class="wf-stat">
+                <div class="n">500+</div>
+                <div class="l">realizacji</div>
+              </div>
+              <div class="wf-stat">
+                <div class="n">PL</div>
+                <div class="l">cała Polska</div>
               </div>
             </div>
-            <div class="wf-hero-img">🏡</div>
           </div>
+          <div class="wf-hero-img">🏡</div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- OFFER TAB -->
-    <div class="wf-panel" id="tab-offer">
-      <div class="mockup">
-        <div class="mockup-bar">
-          <div class="dot r"></div>
-          <div class="dot y"></div>
-          <div class="dot g"></div>
-          <div class="mockup-url">altanystoldrew.pl/altany</div>
+    <!-- OFFER PANEL -->
+    <div class="wf-panel" id="wfp-offer">
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <div class="mockup-url">altanystoldrew.pl/altany</div>
+      </div>
+      <div class="mockup-body" style="background: var(--cream); padding: 40px 32px;">
+        <div style="color: var(--forest); font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; margin-bottom: 8px;">Altany ogrodowe</div>
+        <p style="color: #666; font-size: 14px; margin-bottom: 32px;">Wybierz rozmiar, kształt i kolor — znajdziemy rozwiązanie idealne dla Twojego ogrodu.</p>
+
+        <div style="display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;">
+          <span style="background: var(--forest); color: white; padding: 8px 18px; border-radius: 20px; font-size: 12px;">Wszystkie</span>
+          <span style="background: white; color: var(--forest); padding: 8px 18px; border-radius: 20px; font-size: 12px; border: 1px solid rgba(44,58,46,0.2);">Kwadratowe</span>
+          <span style="background: white; color: var(--forest); padding: 8px 18px; border-radius: 20px; font-size: 12px; border: 1px solid rgba(44,58,46,0.2);">Sześciokątne</span>
+          <span style="background: white; color: var(--forest); padding: 8px 18px; border-radius: 20px; font-size: 12px; border: 1px solid rgba(44,58,46,0.2);">Na wymiar</span>
         </div>
-        <div class="mockup-body" style="background: var(--cream); padding: 40px 32px;">
-          <div
-            style="color: var(--forest); font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; margin-bottom: 8px;">
-            Altany ogrodowe</div>
-          <p style="color: #666; font-size: 14px; margin-bottom: 32px;">Wybierz rozmiar, kształt i kolor — znajdziemy
-            rozwiązanie idealne dla Twojego ogrodu.</p>
 
-          <div style="display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;">
-            <span
-              style="background: var(--forest); color: white; padding: 8px 18px; border-radius: 20px; font-size: 12px;">Wszystkie</span>
-            <span
-              style="background: white; color: var(--forest); padding: 8px 18px; border-radius: 20px; font-size: 12px; border: 1px solid rgba(44,58,46,0.2);">Kwadratowe</span>
-            <span
-              style="background: white; color: var(--forest); padding: 8px 18px; border-radius: 20px; font-size: 12px; border: 1px solid rgba(44,58,46,0.2);">Sześciokątne</span>
-            <span
-              style="background: white; color: var(--forest); padding: 8px 18px; border-radius: 20px; font-size: 12px; border: 1px solid rgba(44,58,46,0.2);">Na
-              wymiar</span>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+          <div style="background: white; border-radius: 6px; overflow: hidden;">
+            <div style="background: #d4d0c8; height: 140px; display: flex; align-items: center; justify-content: center; font-size: 40px;">⛺</div>
+            <div style="padding: 16px;">
+              <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: var(--forest); margin-bottom: 4px;">Altana klasyczna 3×3</div>
+              <div style="font-size: 12px; color: #888; margin-bottom: 12px;">Drewno świerkowe · 6 kolorów</div>
+              <div style="background: var(--ember); color: white; text-align: center; padding: 8px; font-size: 12px; border-radius: 3px; font-weight: 500;">Zapytaj o cenę →</div>
+            </div>
           </div>
-
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-            <div style="background: white; border-radius: 6px; overflow: hidden;">
-              <div
-                style="background: #d4d0c8; height: 140px; display: flex; align-items: center; justify-content: center; font-size: 40px;">
-                ⛺</div>
-              <div style="padding: 16px;">
-                <div
-                  style="font-family: 'Playfair Display', serif; font-size: 16px; color: var(--forest); margin-bottom: 4px;">
-                  Altana klasyczna 3×3</div>
-                <div style="font-size: 12px; color: #888; margin-bottom: 12px;">Drewno świerkowe · 6 kolorów</div>
-                <div
-                  style="background: var(--ember); color: white; text-align: center; padding: 8px; font-size: 12px; border-radius: 3px; font-weight: 500;">
-                  Zapytaj o cenę →</div>
-              </div>
+          <div style="background: white; border-radius: 6px; overflow: hidden;">
+            <div style="background: #c8c4bc; height: 140px; display: flex; align-items: center; justify-content: center; font-size: 40px;">🏡</div>
+            <div style="padding: 16px;">
+              <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: var(--forest); margin-bottom: 4px;">Altana ogrodowa 4×4</div>
+              <div style="font-size: 12px; color: #888; margin-bottom: 12px;">Drewno sosnowe · 12 kolorów</div>
+              <div style="background: var(--ember); color: white; text-align: center; padding: 8px; font-size: 12px; border-radius: 3px; font-weight: 500;">Zapytaj o cenę →</div>
             </div>
-            <div style="background: white; border-radius: 6px; overflow: hidden;">
-              <div
-                style="background: #c8c4bc; height: 140px; display: flex; align-items: center; justify-content: center; font-size: 40px;">
-                🏡</div>
-              <div style="padding: 16px;">
-                <div
-                  style="font-family: 'Playfair Display', serif; font-size: 16px; color: var(--forest); margin-bottom: 4px;">
-                  Altana ogrodowa 4×4</div>
-                <div style="font-size: 12px; color: #888; margin-bottom: 12px;">Drewno sosnowe · 12 kolorów</div>
-                <div
-                  style="background: var(--ember); color: white; text-align: center; padding: 8px; font-size: 12px; border-radius: 3px; font-weight: 500;">
-                  Zapytaj o cenę →</div>
-              </div>
+          </div>
+          <div style="background: white; border-radius: 6px; overflow: hidden; border: 2px solid var(--sage);">
+            <div style="background: #b8b4aa; height: 140px; display: flex; align-items: center; justify-content: center; font-size: 40px; position: relative;">🌿
+              <span style="position: absolute; top: 8px; right: 8px; background: var(--sage); color: white; font-size: 9px; padding: 3px 8px; border-radius: 10px; letter-spacing: 1px;">BESTSELLER</span>
             </div>
-            <div style="background: white; border-radius: 6px; overflow: hidden; border: 2px solid var(--sage);">
-              <div
-                style="background: #b8b4aa; height: 140px; display: flex; align-items: center; justify-content: center; font-size: 40px; position: relative;">
-                🌿
-                <span
-                  style="position: absolute; top: 8px; right: 8px; background: var(--sage); color: white; font-size: 9px; padding: 3px 8px; border-radius: 10px; letter-spacing: 1px;">BESTSELLER</span>
-              </div>
-              <div style="padding: 16px;">
-                <div
-                  style="font-family: 'Playfair Display', serif; font-size: 16px; color: var(--forest); margin-bottom: 4px;">
-                  Altana prestige 5×5</div>
-                <div style="font-size: 12px; color: #888; margin-bottom: 12px;">Drewno dębowe · paleta RAL</div>
-                <div
-                  style="background: var(--ember); color: white; text-align: center; padding: 8px; font-size: 12px; border-radius: 3px; font-weight: 500;">
-                  Zapytaj o cenę →</div>
-              </div>
+            <div style="padding: 16px;">
+              <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: var(--forest); margin-bottom: 4px;">Altana prestige 5×5</div>
+              <div style="font-size: 12px; color: #888; margin-bottom: 12px;">Drewno dębowe · paleta RAL</div>
+              <div style="background: var(--ember); color: white; text-align: center; padding: 8px; font-size: 12px; border-radius: 3px; font-weight: 500;">Zapytaj o cenę →</div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- CONTACT TAB -->
-    <div class="wf-panel" id="tab-contact">
-      <div class="mockup">
-        <div class="mockup-bar">
-          <div class="dot r"></div>
-          <div class="dot y"></div>
-          <div class="dot g"></div>
-          <div class="mockup-url">altanystoldrew.pl/kontakt</div>
-        </div>
-        <div class="mockup-body">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;">
-            <div>
-              <div
-                style="font-family: 'Playfair Display', serif; font-size: 36px; color: var(--white); margin-bottom: 12px; line-height: 1.2;">
-                Porozmawiajmy<br>o Twoim<br><em style="color: var(--straw);">projekcie</em></div>
-              <p style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 32px; line-height: 1.7;">Wyślij
-                nam swoje oczekiwania, a my przygotujemy bezpłatną wycenę w ciągu 24 godzin.</p>
+    <!-- CONTACT PANEL -->
+    <div class="wf-panel" id="wfp-contact">
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <div class="mockup-url">altanystoldrew.pl/kontakt</div>
+      </div>
+      <div class="mockup-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;">
+          <div>
+            <div style="font-family: 'Playfair Display', serif; font-size: 36px; color: var(--white); margin-bottom: 12px; line-height: 1.2;">Porozmawiajmy<br>o Twoim<br><em style="color: var(--straw);">projekcie</em></div>
+            <p style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 32px; line-height: 1.7;">Wyślij nam swoje oczekiwania, a my przygotujemy bezpłatną wycenę w ciągu 24 godzin.</p>
 
-              <div style="display: flex; flex-direction: column; gap: 20px;">
-                <div style="display: flex; align-items: center; gap: 16px;">
-                  <div
-                    style="width: 40px; height: 40px; background: rgba(122,154,109,0.2); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
-                    📞</div>
-                  <div>
-                    <div style="font-size: 12px; color: var(--smoke); margin-bottom: 2px;">Telefon</div>
-                    <div style="color: var(--white); font-size: 18px; font-weight: 600;">723-035-154</div>
-                  </div>
-                </div>
-                <div style="display: flex; align-items: center; gap: 16px;">
-                  <div
-                    style="width: 40px; height: 40px; background: rgba(122,154,109,0.2); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
-                    📍</div>
-                  <div>
-                    <div style="font-size: 12px; color: var(--smoke); margin-bottom: 2px;">Siedziba</div>
-                    <div style="color: var(--white); font-size: 14px;">ul. Długa 21, Konradów<br>k. Częstochowy</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              style="background: rgba(255,255,255,0.05); border-radius: 6px; padding: 32px; border: 1px solid rgba(255,255,255,0.08);">
-              <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="width: 40px; height: 40px; background: rgba(122,154,109,0.2); border-radius: 4px; display: flex; align-items: center; justify-content: center;">📞</div>
                 <div>
-                  <label
-                    style="display: block; font-size: 11px; color: var(--smoke); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Imię
-                    i nazwisko</label>
-                  <div
-                    style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; color: rgba(255,255,255,0.3); font-size: 14px;">
-                    Jan Kowalski</div>
+                  <div style="font-size: 12px; color: var(--smoke); margin-bottom: 2px;">Telefon</div>
+                  <div style="color: var(--white); font-size: 18px; font-weight: 600;">723-035-154</div>
                 </div>
-                <div>
-                  <label
-                    style="display: block; font-size: 11px; color: var(--smoke); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Interesuje
-                    mnie</label>
-                  <div
-                    style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; color: rgba(255,255,255,0.3); font-size: 14px;">
-                    ▼ Altana ogrodowa</div>
-                </div>
-                <div>
-                  <label
-                    style="display: block; font-size: 11px; color: var(--smoke); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Wiadomość</label>
-                  <div
-                    style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; color: rgba(255,255,255,0.3); font-size: 14px; height: 80px;">
-                    Opis projektu...</div>
-                </div>
-                <div
-                  style="background: var(--ember); color: white; text-align: center; padding: 14px; border-radius: 4px; font-size: 14px; font-weight: 600; letter-spacing: 1px;">
-                  WYŚLIJ ZAPYTANIE →</div>
               </div>
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="width: 40px; height: 40px; background: rgba(122,154,109,0.2); border-radius: 4px; display: flex; align-items: center; justify-content: center;">📍</div>
+                <div>
+                  <div style="font-size: 12px; color: var(--smoke); margin-bottom: 2px;">Siedziba</div>
+                  <div style="color: var(--white); font-size: 14px;">ul. Długa 21, Konradów<br>k. Częstochowy</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: rgba(255,255,255,0.05); border-radius: 6px; padding: 32px; border: 1px solid rgba(255,255,255,0.08);">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div>
+                <label style="display: block; font-size: 11px; color: var(--smoke); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Imię i nazwisko</label>
+                <div style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; color: rgba(255,255,255,0.3); font-size: 14px;">Jan Kowalski</div>
+              </div>
+              <div>
+                <label style="display: block; font-size: 11px; color: var(--smoke); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Interesuje mnie</label>
+                <div style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; color: rgba(255,255,255,0.3); font-size: 14px;">▼ Altana ogrodowa</div>
+              </div>
+              <div>
+                <label style="display: block; font-size: 11px; color: var(--smoke); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Wiadomość</label>
+                <div style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; color: rgba(255,255,255,0.3); font-size: 14px; height: 80px;">Opis projektu...</div>
+              </div>
+              <div style="background: var(--ember); color: white; text-align: center; padding: 14px; border-radius: 4px; font-size: 14px; font-weight: 600; letter-spacing: 1px;">WYŚLIJ ZAPYTANIE →</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </div><!-- /wf-tabs-wrapper -->
+</div><!-- /wireframes -->
+<div class="features">
+  <div class="feat-inner">
+    <div class="section-tag">06 · Nowe funkcjonalności</div>
+    <h2>Co pojawia się w nowej stronie</h2>
 
-  <!-- KEY FEATURES -->
-  <div class="features">
-    <div class="feat-inner">
-      <div class="section-tag">06 · Nowe funkcjonalności</div>
-      <h2>Co pojawia się w nowej stronie</h2>
-
-      <div class="feat-grid">
+    <div class="feat-grid">
 
 
-        <div class="feat-card">
-          <div class="feat-num">— F.02</div>
-          <h3>Siatka kart produktowych z filtrowaniem</h3>
-          <p>Zamiast długiej listy modeli przewijanej od góry do dołu — siatka kart z miniaturą zdjęcia, nazwą, wymiarem
-            i ceną wyjściową. Filtrowanie po typie dachu, rozmiarze i przedziale cenowym. Klient w kilka sekund zawęża
-            wybór do interesujących modeli zamiast ręcznie scrollować przez dziesiątki wpisów.</p>
-          <span class="feat-badge">→ Szybsze decyzje zakupowe</span>
-        </div>
+      <div class="feat-card">
+        <div class="feat-num">— F.02</div>
+        <h3>Siatka kart produktowych z filtrowaniem</h3>
+        <p>Zamiast długiej listy modeli przewijanej od góry do dołu — siatka kart z miniaturą zdjęcia, nazwą, wymiarem i ceną wyjściową. Filtrowanie po typie dachu, rozmiarze i przedziale cenowym. Klient w kilka sekund zawęża wybór do interesujących modeli zamiast ręcznie scrollować przez dziesiątki wpisów.</p>
+        <span class="feat-badge">→ Szybsze decyzje zakupowe</span>
+      </div>
 
-        <div class="feat-card">
-          <div class="feat-num">— F.03</div>
-          <h3>Paleta kolorów — interaktywny podgląd</h3>
-          <p>Zamiast statycznej strony z barwami — klikalne próbniki, które zmieniają kolor prezentowanego modelu w
-            czasie rzeczywistym. Klient widzi swój wybór na żywo.</p>
-          <span class="feat-badge">→ UX premium</span>
-        </div>
+      <div class="feat-card">
+        <div class="feat-num">— F.03</div>
+        <h3>Paleta kolorów — interaktywny podgląd</h3>
+        <p>Zamiast statycznej strony z barwami — klikalne próbniki, które zmieniają kolor prezentowanego modelu w czasie rzeczywistym. Klient widzi swój wybór na żywo.</p>
+        <span class="feat-badge">→ UX premium</span>
+      </div>
 
-        <div class="feat-card">
-          <div class="feat-num">— F.04</div>
-          <h3>Opinie klientów i Google Reviews</h3>
-          <p>Sekcja z wbudowanymi opiniami Google lub ręcznie dodanymi recenzjami. Imię, miasto, ocena gwiazdkowa,
-            krótki opis. Buduje zaufanie i redukuje tarcie decyzyjne.</p>
-          <span class="feat-badge">→ Budowanie zaufania</span>
-        </div>
+      <div class="feat-card">
+        <div class="feat-num">— F.04</div>
+        <h3>Opinie klientów i Google Reviews</h3>
+        <p>Sekcja z wbudowanymi opiniami Google lub ręcznie dodanymi recenzjami. Imię, miasto, ocena gwiazdkowa, krótki opis. Buduje zaufanie i redukuje tarcie decyzyjne.</p>
+        <span class="feat-badge">→ Budowanie zaufania</span>
+      </div>
 
-        <div class="feat-card">
-          <div class="feat-num">— F.05</div>
-          <h3>Floating CTA button</h3>
-          <p>Stały przycisk „Zadzwoń teraz" lub „Zapytaj o wycenę" widoczny na każdej podstronie, na każdym etapie
-            scrollowania. Eliminuje potrzebę szukania danych kontaktowych.</p>
-          <span class="feat-badge">→ Wzrost konwersji</span>
-        </div>
+      <div class="feat-card">
+        <div class="feat-num">— F.05</div>
+        <h3>Floating CTA button</h3>
+        <p>Stały przycisk „Zadzwoń teraz" lub „Zapytaj o wycenę" widoczny na każdej podstronie, na każdym etapie scrollowania. Eliminuje potrzebę szukania danych kontaktowych.</p>
+        <span class="feat-badge">→ Wzrost konwersji</span>
+      </div>
 
-        <div class="feat-card">
-          <div class="feat-num">— F.06</div>
-          <h3>Strona O firmie z historią i twarzami</h3>
-          <p>Zdjęcia warsztatu, właściciela, pracowników w pracy. Tekst o historii i wartościach. Mapa z siedzibą.
-            Ludzie kupują od ludzi — ta strona buduje relację, zanim padnie pierwsze słowo.</p>
-          <span class="feat-badge">→ Brand humanization</span>
-        </div>
+      <div class="feat-card">
+        <div class="feat-num">— F.06</div>
+        <h3>Strona O firmie z historią i twarzami</h3>
+        <p>Zdjęcia warsztatu, właściciela, pracowników w pracy. Tekst o historii i wartościach. Mapa z siedzibą. Ludzie kupują od ludzi — ta strona buduje relację, zanim padnie pierwsze słowo.</p>
+        <span class="feat-badge">→ Brand humanization</span>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- ROADMAP -->
-  <div class="roadmap">
-    <div class="section-tag">07 · Plan wdrożenia</div>
-    <h2>Trzy fazy. Mierzalne efekty na każdym etapie.</h2>
+<!-- ROADMAP -->
+<div class="roadmap">
+  <div class="section-tag">07 · Plan wdrożenia</div>
+  <h2>Trzy fazy. Mierzalne efekty na każdym etapie.</h2>
 
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-phase">Faza 1 · Tygodnie 1–3</div>
-        <h3>Fundament — nowa identyfikacja i szkielet</h3>
-        <p>Wdrożenie nowej palety barw, typografii i layoutu strony głównej. Nowa nawigacja, hero sekcja, sekcja
-          produktów i kontakt. Optymalizacja mobile-first. Techniczne SEO.</p>
-        <div class="tl-tags">
-          <span class="tl-tag">Nowa strona główna</span>
-          <span class="tl-tag">Responsywność</span>
-          <span class="tl-tag">Paleta kolorów</span>
-          <span class="tl-tag">Szybkość ładowania</span>
-        </div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-phase">Faza 1 · Tygodnie 1–3</div>
+      <h3>Fundament — nowa identyfikacja i szkielet</h3>
+      <p>Wdrożenie nowej palety barw, typografii i layoutu strony głównej. Nowa nawigacja, hero sekcja, sekcja produktów i kontakt. Optymalizacja mobile-first. Techniczne SEO.</p>
+      <div class="tl-tags">
+        <span class="tl-tag">Nowa strona główna</span>
+        <span class="tl-tag">Responsywność</span>
+        <span class="tl-tag">Paleta kolorów</span>
+        <span class="tl-tag">Szybkość ładowania</span>
       </div>
+    </div>
 
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-phase">Faza 2 · Tygodnie 4–7</div>
-        <h3>Treść — galeria, produkty, zaufanie</h3>
-        <p>Sesja zdjęciowa lub pozyskanie zdjęć realizacji. Rozbudowanie kart produktowych o specyfikacje i wymiary.
-          Dodanie sekcji opinii. Konfigurator wyceny krok po kroku.</p>
-        <div class="tl-tags">
-          <span class="tl-tag">Galeria realizacji</span>
-          <span class="tl-tag">Karty produktów</span>
-          <span class="tl-tag">Formularz wyceny</span>
-          <span class="tl-tag">Opinie klientów</span>
-        </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-phase">Faza 2 · Tygodnie 4–7</div>
+      <h3>Treść — galeria, produkty, zaufanie</h3>
+      <p>Sesja zdjęciowa lub pozyskanie zdjęć realizacji. Rozbudowanie kart produktowych o specyfikacje i wymiary. Dodanie sekcji opinii. Konfigurator wyceny krok po kroku.</p>
+      <div class="tl-tags">
+        <span class="tl-tag">Galeria realizacji</span>
+        <span class="tl-tag">Karty produktów</span>
+        <span class="tl-tag">Formularz wyceny</span>
+        <span class="tl-tag">Opinie klientów</span>
       </div>
+    </div>
 
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-phase">Faza 3 · Tygodnie 8–10</div>
-        <h3>Wzrost — SEO, analityka, optymalizacja</h3>
-        <p>Konfiguracja Google Analytics 4 i Search Console. Lokalne SEO (frazy „altana Częstochowa", „domek ogrodowy
-          Śląsk"). A/B testy CTA. Blog lub FAQ jako magnes organicznych wejść.</p>
-        <div class="tl-tags">
-          <span class="tl-tag">Google Analytics 4</span>
-          <span class="tl-tag">Lokalne SEO</span>
-          <span class="tl-tag">A/B testy</span>
-          <span class="tl-tag">Blog / FAQ</span>
-        </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-phase">Faza 3 · Tygodnie 8–10</div>
+      <h3>Wzrost — SEO, analityka, optymalizacja</h3>
+      <p>Konfiguracja Google Analytics 4 i Search Console. Lokalne SEO (frazy „altana Częstochowa", „domek ogrodowy Śląsk"). A/B testy CTA. Blog lub FAQ jako magnes organicznych wejść.</p>
+      <div class="tl-tags">
+        <span class="tl-tag">Google Analytics 4</span>
+        <span class="tl-tag">Lokalne SEO</span>
+        <span class="tl-tag">A/B testy</span>
+        <span class="tl-tag">Blog / FAQ</span>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- CTA -->
-  <div class="cta-section">
-    <div class="section-tag" style="justify-content: center; color: rgba(255,255,255,0.4);">Podsumowanie</div>
-    <h2>Nowa strona to nie koszt — to inwestycja w sprzedaż</h2>
-    <p>Stol-Drew ma produkt, doświadczenie i zasięg. Brakuje tylko strony, która to wszystko pokaże. Każda
-      niezrealizowana wizyta to potencjalny klient, który odszedł do konkurencji.</p>
-    <a href="/cdn-cgi/l/email-protection#f487809b9890869183839b98879f9db49d9a8091869d95da8498" class="cta-btn">Omów
-      redesign →</a>
-  </div>
+<!-- CTA -->
+<div class="cta-section">
+  <div class="section-tag" style="justify-content: center; color: rgba(255,255,255,0.4);">Podsumowanie</div>
+  <h2>Nowa strona to nie koszt — to inwestycja w sprzedaż</h2>
+  <p>Stol-Drew ma produkt, doświadczenie i zasięg. Brakuje tylko strony, która to wszystko pokaże. Każda niezrealizowana wizyta to potencjalny klient, który odszedł do konkurencji.</p>
+  <a href="/cdn-cgi/l/email-protection#f487809b9890869183839b98879f9db49d9a8091869d95da8498" class="cta-btn">Omów redesign →</a>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>
-      <strong>Propozycja redesignu UX/UI · Stol-Drew · altanystoldrew.pl</strong><br>
-      Opracowane przez: Senior UX/UI Designer<br>
-      Data: 2025 · Wersja 1.0<br><br>
-      Wszelkie koncepcje wizualne, nazwy sekcji i rozwiązania UI zawarte w tym dokumencie są propozycją poglądową.
-    </p>
-  </footer>
+<!-- FOOTER -->
+<footer>
+  <p>
+    <strong>Propozycja redesignu UX/UI · Stol-Drew · altanystoldrew.pl</strong><br>
+    Opracowane przez: Senior UX/UI Designer<br>
+    Data: 2025 · Wersja 1.0<br><br>
+    Wszelkie koncepcje wizualne, nazwy sekcji i rozwiązania UI zawarte w tym dokumencie są propozycją poglądową.
+  </p>
+</footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  <script>
-    function switchTab(id) {
-      document.querySelectorAll('.wf-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.wf-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('tab-' + id).classList.add('active');
-      event.target.classList.add('active');
-    }
+<script>
 
-    // Animate elements on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
+  // Animate elements on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
 
-    document.querySelectorAll('.problem-card, .feat-card, .tl-item').forEach(el => {
-      el.style.opacity = '0';
-      el.style.tra
+  document.querySelectorAll('.problem-card, .feat-card, .tl-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.tra
